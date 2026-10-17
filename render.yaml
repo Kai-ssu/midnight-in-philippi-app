@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: midnight-in-philippi
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn philippi.wsgi
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.13.7

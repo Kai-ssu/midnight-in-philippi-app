@@ -1,0 +1,33 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Midnight in Philippi{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'game/style.css' %}">
+</head>
+<body>
+  {% if entrance %}{% include "game/entrance.html" %}{% endif %}
+  <header class="topbar">
+    <a class="brand" href="{% url 'intro' %}">Midnight in Philippi</a>
+    {% if deadline %}<div class="timer" data-deadline="{{ deadline }}" aria-live="off">--:--</div>{% endif %}
+  </header>
+  {% if reached %}
+  <nav class="stages" aria-label="Stages">
+    {% for s in reached %}
+      <a href="{% url 'stage' s.number %}"{% if s.number == stage.number %} aria-current="page"{% endif %}>{{ s.number }}</a>
+    {% endfor %}
+  </nav>
+  {% endif %}
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="credits">
+    © {% now "Y" %} Kye Laurel · <a href="https://github.com/Kai-ssu" target="_blank" rel="noopener">GitHub</a>
+  </footer>
+  <script src="{% static 'game/game.js' %}"></script>
+</body>
+</html>

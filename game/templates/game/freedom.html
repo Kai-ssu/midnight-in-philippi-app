@@ -1,0 +1,16 @@
+{% extends "game/base.html" %}
+{% block title %}Free! · Midnight in Philippi{% endblock %}
+{% block content %}
+<section class="card intro">
+  <p class="eyebrow">Acts 16:34</p>
+  <h1>The Doors Are Open</h1>
+  <p class="scene">The jailer brought them into his house and set a meal before them; he was filled with joy because he had come to believe in God, he and his whole household.</p>
+  <p class="elapsed">You escaped in <strong>{{ elapsed }}</strong></p>
+  <p>Find your Gamemaster to open the Victory Box.</p>
+</section>
+
+<form class="reset-form" method="post" action="{% url 'reset' %}" data-confirm="Reset this device for a new team? This clears the progress and timer.">
+  {% csrf_token %}
+  <button class="button button--quiet" type="submit">Reset for a new team</button>
+</form>
+{% endblock %}
