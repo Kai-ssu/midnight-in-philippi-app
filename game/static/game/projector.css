@@ -318,6 +318,14 @@ h2 {
   border-radius: 4px;
   font: 0.8em/1.4 ui-monospace, monospace;
 }
+.story-note {
+  max-width: 44ch;
+  margin: 1.6em auto 0;
+  font: italic 400 clamp(0.85rem, min(1.4vw, 2.2vh), 1.2rem)/1.4 "EB Garamond", Georgia, serif;
+  color: var(--text);
+  opacity: 0.75;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+}
 .caption {
   max-width: 28ch;
   margin: 0 auto;
