@@ -6,11 +6,21 @@
   <li>Convert the Roman numerals, in order, into a 5-digit code.</li>
 </ol>
 
-{# Deliberately shown out of order. #}
-<div class="strips">
+{% comment %}
+  Each translation words Paul's shout differently, so each gets its own strips.
+  Both are numbered so the correct order gives the same code. Shown out of order.
+{% endcomment %}
+<div class="strips" data-bible="niv">
   <button type="button" class="strip"><span class="front">“HERE!”</span><span class="back">V</span></button>
   <button type="button" class="strip"><span class="front">“HARM”</span><span class="back">VI</span></button>
   <button type="button" class="strip"><span class="front">“WE ARE ALL”</span><span class="back">II</span></button>
   <button type="button" class="strip"><span class="front">“DON'T”</span><span class="back">I</span></button>
   <button type="button" class="strip"><span class="front">“YOURSELF!”</span><span class="back">IV</span></button>
+</div>
+<div class="strips" data-bible="nkjv">
+  <button type="button" class="strip"><span class="front">“HERE.”</span><span class="back">V</span></button>
+  <button type="button" class="strip"><span class="front">“NO HARM,”</span><span class="back">IV</span></button>
+  <button type="button" class="strip"><span class="front">“FOR WE ARE ALL”</span><span class="back">II</span></button>
+  <button type="button" class="strip"><span class="front">“DO”</span><span class="back">I</span></button>
+  <button type="button" class="strip"><span class="front">“YOURSELF”</span><span class="back">VI</span></button>
 </div>

@@ -1,5 +1,5 @@
 {# Full-screen scene played once on arrival. Pure CSS, so it also clears itself without JS. #}
-<div class="entrance entrance--{{ entrance.scene }}{% if entrance.padlock %} entrance--padlock{% endif %}" role="status">
+<div data-scene="{{ entrance.scene }}" class="entrance entrance--{{ entrance.scene }}{% if entrance.padlock %} entrance--padlock{% endif %}" role="status">
   <div class="entrance-shake">
     <div class="entrance-art" aria-hidden="true">
       {% if entrance.padlock %}

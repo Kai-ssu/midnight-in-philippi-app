@@ -1,0 +1,24 @@
+{% extends "game/base.html" %}
+{% block sound_toggle %}{% endblock %}
+{% block content %}
+<section class="card intro">
+  <p class="eyebrow">A Scripture escape room · Acts 16:16–34</p>
+  <h1>Midnight in Philippi</h1>
+  <p>Four locked stages, one night in a Roman prison. How are you joining tonight?</p>
+</section>
+
+<nav class="roles" aria-label="Choose your role">
+  <a class="card role" href="{% url 'intro' %}">
+    <span class="role-title">I'm playing</span>
+    <span class="role-text">Join your team, solve the clues with your Bible, and unlock each stage.</span>
+  </a>
+  <a class="card role" href="{% url 'facilitator' %}">
+    <span class="role-title">I'm leading</span>
+    <span class="role-text">The projector backdrop, the QR code for players, and the debrief slides.</span>
+  </a>
+  <a class="card role" href="{% url 'about' %}">
+    <span class="role-title">Just looking</span>
+    <span class="role-text">What this is, how it works, and who made it.</span>
+  </a>
+</nav>
+{% endblock %}

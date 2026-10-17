@@ -1,7 +1,7 @@
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 
-from .stages import normalize
+from .stages import STAGES, normalize
 
 
 class NormalizeTests(SimpleTestCase):
@@ -41,6 +41,11 @@ class GameFlowTests(SimpleTestCase):
         response = self.submit(3, "16425")
         self.assertRedirects(response, reverse("stage", args=[1]))
 
+    def test_old_word_lock_answer_is_rejected(self):
+        self.start()
+        self.submit(1, "284")
+        self.assertContains(self.submit(2, "SONG"), "Check the Scriptures and try again")
+
     def test_full_playthrough(self):
         self.start()
         self.assertRedirects(self.submit(1, "2-8-4"), reverse("stage", args=[2]))
@@ -48,11 +53,6 @@ class GameFlowTests(SimpleTestCase):
         self.assertRedirects(self.submit(3, "1-6-4-2-5"), reverse("stage", args=[4]))
         self.assertRedirects(self.submit(4, "7302"), reverse("freedom"))
         self.assertContains(self.client.get(reverse("freedom")), "You escaped in")
-
-    def test_word_lock_alternative(self):
-        self.start()
-        self.submit(1, "284")
-        self.assertRedirects(self.submit(2, "SONG"), reverse("stage", args=[3]))
 
     def test_solved_stage_can_be_revisited(self):
         self.start()
@@ -90,6 +90,89 @@ class GameFlowTests(SimpleTestCase):
         self.submit(1, "284")
         self.client.post(reverse("reset"))
         self.assertRedirects(self.client.get(reverse("stage", args=[1])), reverse("intro"))
+
+    def test_landing_offers_three_roles(self):
+        response = self.client.get(reverse("landing"))
+        for url in [reverse("intro"), reverse("facilitator"), reverse("about")]:
+            self.assertContains(response, f'href="{url}"')
+
+    def test_leader_and_about_pages_render(self):
+        self.assertContains(self.client.get(reverse("facilitator")), "<svg")
+        self.assertContains(self.client.get(reverse("about")), "Kye Laurel")
+
+    def test_leader_page_shows_no_answers(self):
+        response = self.client.get(reverse("facilitator"))
+        for stage in STAGES.values():
+            for answer in stage.answers:
+                self.assertNotContains(response, answer)
+
+    def test_backdrop_has_join_qr_and_debrief_link(self):
+        response = self.client.get(reverse("backdrop"))
+        self.assertContains(response, "<svg")
+        self.assertContains(response, "testserver/play")
+        self.assertContains(response, f'href="{reverse("debrief")}"')
+
+    def test_backdrop_needs_no_game(self):
+        response = self.client.get(reverse("backdrop"))
+        self.assertContains(response, 'id="clock"')
+        self.assertNotIn("progress", self.client.session)
+
+    def test_debrief_shows_questions_only(self):
+        response = self.client.get(reverse("debrief"))
+        for title in ["Praise in the Dark", "Mercy Over Self-Preservation", "The Domino Effect of Faith"]:
+            self.assertContains(response, title)
+        self.assertNotContains(response, "Facilitator Focus")
+
+    def test_stage_three_has_strips_for_each_bible(self):
+        self.start()
+        self.submit(1, "284")
+        self.submit(2, "JPMH")
+        response = self.client.get(reverse("stage", args=[3]))
+        self.assertContains(response, 'data-bible="niv"')
+        self.assertContains(response, 'data-bible="nkjv"')
+        self.assertContains(response, "NO HARM")
+        self.assertNotContains(response, "{#")  # no leaked template comments
+
+    def test_every_stage_has_the_bible_switch(self):
+        self.start()
+        for stage, code in [(1, "284"), (2, "JPMH"), (3, "16425"), (4, None)]:
+            response = self.client.get(reverse("stage", args=[stage]))
+            self.assertContains(response, 'data-bible-pick="nkjv"')
+            if code:
+                self.submit(stage, code)
+        self.assertContains(self.client.get(reverse("intro")), 'data-bible-pick="nkjv"')
+
+    @override_settings(LEADER_CODE="open sesame")
+    def test_answer_key_needs_the_passcode(self):
+        url = reverse("answers")
+        locked = self.client.get(url)
+        self.assertContains(locked, 'name="passcode"')
+        self.assertNotContains(locked, "2-8-4")
+
+        wrong = self.client.post(url, {"passcode": "guess"})
+        self.assertContains(wrong, "That passcode")
+        self.assertNotContains(wrong, "2-8-4")
+
+        self.client.post(url, {"passcode": "open sesame"})
+        unlocked = self.client.get(url)
+        for code in ["2-8-4", "J-P-M-H", "1-6-4-2-5", "7-3-0-2"]:
+            self.assertContains(unlocked, code)
+
+        self.client.post(url, {"action": "lock"})
+        self.assertNotContains(self.client.get(url), "2-8-4")
+
+    def test_new_passcode_locks_unlocked_devices(self):
+        with override_settings(LEADER_CODE="old code"):
+            self.client.post(reverse("answers"), {"passcode": "old code"})
+            self.assertContains(self.client.get(reverse("answers")), "2-8-4")
+        with override_settings(LEADER_CODE="new code"):
+            self.assertNotContains(self.client.get(reverse("answers")), "2-8-4")
+
+    @override_settings(LEADER_CODE="")
+    def test_answer_key_stays_locked_without_a_passcode(self):
+        response = self.client.post(reverse("answers"), {"passcode": ""})
+        self.assertNotContains(response, "2-8-4")
+        self.assertContains(self.client.get(reverse("answers")), "LEADER_CODE")
 
     def test_unknown_stage_404(self):
         self.start()

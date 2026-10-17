@@ -45,6 +45,38 @@ body {
   text-decoration: none;
 }
 
+.topbar-end {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sound-toggle {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--card-edge);
+  border-radius: 50%;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+.sound-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sound-toggle .speaker { fill: currentColor; }
+.sound-toggle[aria-pressed="true"] { color: var(--accent); }
+.sound-toggle[aria-pressed="true"] .mute,
+.sound-toggle[aria-pressed="false"] .waves { display: none; }
+
 .timer {
   font: 700 1.1rem/1 "Cinzel", serif;
   font-variant-numeric: tabular-nums;
@@ -109,6 +141,7 @@ h1 {
 .scene { font-style: italic; color: var(--muted); }
 
 .translation {
+  margin: 16px 0 20px;
   padding: 8px 12px;
   border: 1px solid var(--card-edge);
   border-radius: 8px;
@@ -169,6 +202,34 @@ q { font-style: italic; }
 .cipher ol { margin: 0; padding-left: 22px; }
 
 .strips { display: grid; gap: 10px; }
+
+/* NIV / NKJV: show only the wording for the chosen Bible (set on <html> by game.js). */
+html:not([data-bible="nkjv"]) [data-bible="nkjv"],
+html[data-bible="nkjv"] [data-bible="niv"] { display: none; }
+
+.bible-choice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.bible-label { margin-right: 4px; color: var(--muted); }
+.bible-choice button {
+  padding: 4px 14px;
+  border: 1px solid var(--card-edge);
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  font: 700 0.85rem/1.4 "Cinzel", serif;
+  cursor: pointer;
+}
+.bible-choice button[aria-checked="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.translation p { margin: 0 0 10px; }
+.intro .bible-choice { justify-content: center; }
 .strip {
   position: relative;
   min-height: 56px;
@@ -229,6 +290,76 @@ q { font-style: italic; }
 .reset-form { text-align: center; }
 
 .elapsed { font-size: 1.3rem; }
+
+/* Landing page role choices. */
+.roles { display: grid; gap: 12px; }
+.role {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.role:hover, .role:focus-visible { border-color: var(--accent); transform: translateY(-2px); }
+.role-title { font: 700 1.25rem/1.2 "Cinzel", serif; color: var(--accent); }
+.role-title::after { content: " →"; }
+.role-text { color: var(--muted); }
+
+/* Leader and about pages. */
+h2 {
+  margin: 0 0 12px;
+  font: 700 1.15rem/1.3 "Cinzel", serif;
+  color: var(--accent);
+}
+kbd {
+  padding: 1px 6px;
+  border: 1px solid var(--card-edge);
+  border-radius: 4px;
+  background: #0f0d0b;
+  font: 0.85em/1.4 ui-monospace, monospace;
+}
+.keys { width: 100%; border-collapse: collapse; }
+.keys td { padding: 6px 0; border-top: 1px solid var(--card-edge); vertical-align: top; }
+.keys td:first-child { width: 5.5em; }
+.facts { margin: 0; padding-left: 20px; }
+.button-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Leaders' answer key. */
+.passcode { display: grid; gap: 10px; max-width: 360px; }
+.passcode label { font: 600 0.9rem/1.4 "Cinzel", serif; color: var(--muted); }
+.passcode input {
+  padding: 12px;
+  border: 1px solid var(--card-edge);
+  border-radius: 10px;
+  background: #0f0d0b;
+  color: var(--text);
+  font: inherit;
+}
+.passcode input:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+.passcode .error { text-align: left; }
+.answer h2 { margin-bottom: 4px; }
+.answer-code {
+  margin: 0 0 12px;
+  font: 700 2rem/1.2 "Cinzel", serif;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+.back-link { text-align: center; }
+.back-link a,
+.fine-print a { color: var(--accent); }
+.fine-print { margin: 12px 0 0; font-size: 1rem; color: var(--muted); }
+.facts li { margin-bottom: 8px; }
+
+.join {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.join-qr { flex: 0 0 120px; }
+.join-qr svg { display: block; width: 100%; height: auto; border-radius: 6px; }
+.join-label { margin: 0; font: 600 0.8rem/1.4 "Cinzel", serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.join-url { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 
 .credits {
   padding: 0 16px 24px;

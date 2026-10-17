@@ -10,3 +10,5 @@ services:
         generateValue: true
       - key: PYTHON_VERSION
         value: 3.13.7
+      - key: LEADER_CODE # passcode for the answer key; set it in the Render dashboard
+        sync: false

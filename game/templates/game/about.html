@@ -1,0 +1,30 @@
+{% extends "game/base.html" %}
+{% block title %}About · Midnight in Philippi{% endblock %}
+{% block sound_toggle %}{% endblock %}
+{% block content %}
+<section class="card">
+  <p class="eyebrow">About</p>
+  <h1>Midnight in Philippi</h1>
+  <p>A Bible escape room for youth groups, based on Paul and Silas in prison in Acts 16:16–34. Teams of 4–8 work through four locked stages with an NIV or NKJV Bible: the accusation, songs at midnight, the earthquake, and the jailer's question, “What must I do to be saved?”</p>
+  <p>This web app replaces the locked envelopes. Each team opens it on a phone, reads the clue cards, and enters the codes. A projector backdrop sets the scene in the room, and discussion slides lead the group debrief afterwards.</p>
+  <a class="button" href="{% url 'intro' %}">Try it</a>
+</section>
+
+<section class="card">
+  <h2>How it's built</h2>
+  <ul class="facts">
+    <li><strong>Django</strong> checks every code on the server, so answers never appear in the page.</li>
+    <li>Progress lives in a <strong>signed cookie</strong> instead of a database, so it runs free on Render.</li>
+    <li>The unlock animations are <strong>pure CSS</strong>, and every sound effect is synthesized in the browser with the <strong>Web Audio API</strong>. There are no image or audio files.</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>Made by Kye Laurel</h2>
+  <p>The code for this app is open on GitHub, along with more of my work.</p>
+  <div class="button-row">
+    <a class="button" href="https://github.com/Kai-ssu/midnight-in-philippi-app" target="_blank" rel="noopener">View the code</a>
+    <a class="button button--quiet" href="https://github.com/Kai-ssu" target="_blank" rel="noopener">github.com/Kai-ssu</a>
+  </div>
+</section>
+{% endblock %}

@@ -12,12 +12,15 @@
     <p>To break free and witness the power of God tonight, you must work through four stages of testing: confronting the accusation, singing in the darkness, surviving the earthquake, and delivering the message of life to your jailer.</p>
   </div>
 
-  <p class="translation">All clues use the <strong>New International Version (NIV)</strong>. Keep an NIV Bible open, since other translations word some verses differently.</p>
+  <div class="translation">
+    <p>The clues follow the <strong>NIV</strong> or the <strong>NKJV</strong>. Choose the Bible your team is using, since other translations word some verses differently. You can change it later from any stage.</p>
+    {% include "game/bible_choice.html" with label="Our Bible" %}
+  </div>
 
   {% if progress %}
     <a class="button" href="{{ resume_url }}">Continue</a>
   {% else %}
-    <form method="post" action="{% url 'start' %}">
+    <form method="post" action="{% url 'start' %}" data-swap>
       {% csrf_token %}
       <button class="button" type="submit">Begin: your {{ game_minutes }} minutes start now</button>
     </form>

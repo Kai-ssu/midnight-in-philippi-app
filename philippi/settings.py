@@ -24,6 +24,10 @@ if not SECRET_KEY:
         raise ImproperlyConfigured("Set DJANGO_SECRET_KEY when DEBUG is off.")
     SECRET_KEY = "django-insecure-local-dev-only"
 
+# Passcode for the leaders' answer key at /lead/answers/. Set it on the host;
+# locally it defaults to "philippi". Without one in production the key stays locked.
+LEADER_CODE = os.environ.get("LEADER_CODE", "philippi" if DEBUG else "")
+
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
@@ -71,6 +75,9 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_AGE = 12 * 60 * 60
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = not DEBUG
+# Render (and most hosts) terminate HTTPS at a proxy; trust its header so
+# absolute links, like the backdrop's QR code, use https://.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 CSRF_COOKIE_SECURE = not DEBUG
 
 LANGUAGE_CODE = "en-us"

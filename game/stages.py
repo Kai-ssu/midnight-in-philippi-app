@@ -32,6 +32,9 @@ class Stage:
     code_prompt: str
     answers: tuple[str, ...]
     entrance: Entrance
+    # Answer key for leaders: (part of the code, how players find it).
+    key: tuple[tuple[str, str], ...]
+    key_note: str = ""
     numeric: bool = True
 
     @property
@@ -40,6 +43,11 @@ class Stage:
 
     def accepts(self, code: str) -> bool:
         return normalize(code) in self.answers
+
+    @property
+    def display_code(self) -> str:
+        """The main answer as written on a lock, e.g. "2-8-4"."""
+        return "-".join(self.answers[0])
 
 
 STAGES = {
@@ -52,14 +60,26 @@ STAGES = {
             "Enter the 3-digit code",
             ("284",),
             Entrance("dark", "Philippi, AD 50. The cell door slams shut.", padlock=False),
+            key=(
+                ("2", "Paul and Silas were seized and dragged into the marketplace (16:19)."),
+                ("8", "The spirit left the girl in verse 18."),
+                ("4", "Their feet were fastened in the stocks in verse 24."),
+            ),
         ),
         Stage(
             2,
             "Songs in the Stocks",
             "Acts 16:25–26",
             "Enter the 4-letter code",
-            ("JPMH", "SONG"),  # SONG is the kit's alternative word-lock answer
+            ("JPMH",),
             Entrance("songs", "Midnight. In the darkness, a song begins…"),
+            key=(
+                ("J", "Nehemiah 8:10: “the joy of the LORD is your strength.”"),
+                ("P", "Psalm 119:164: “Seven times a day I praise you.”"),
+                ("M", "Acts 16:25: the time of night was midnight."),
+                ("H", "Acts 16:25: they were singing hymns."),
+            ),
+            key_note="Letters go in Bible order: Nehemiah, Psalms, then Acts (time of night before what they sang).",
             numeric=False,
         ),
         Stage(
@@ -69,6 +89,11 @@ STAGES = {
             "Enter the 5-digit code",
             ("16425",),
             Entrance("quake", "Suddenly, a violent earthquake!"),
+            key=(
+                ("NIV", "DON'T (I) · HARM (VI) · YOURSELF! (IV) · WE ARE ALL (II) · HERE! (V)"),
+                ("NKJV", "DO (I) · YOURSELF (VI) · NO HARM (IV) · FOR WE ARE ALL (II) · HERE (V)"),
+            ),
+            key_note="Strips in the order of Paul's shout in Acts 16:28. Both Bibles give the same code.",
         ),
         Stage(
             4,
@@ -77,6 +102,12 @@ STAGES = {
             "Enter the 4-digit code",
             ("7302",),
             Entrance("torch", "The jailer calls for lights…"),
+            key=(
+                ("7", "BELIEVE has 7 letters (16:31)."),
+                ("3", "The jailer washed their wounds (NKJV: stripes) in verse 33."),
+                ("0", "No prisoners fled: “We are all here” (16:28)."),
+                ("2", "Faith and joy in the jailer's household (16:34)."),
+            ),
         ),
     ]
 }
