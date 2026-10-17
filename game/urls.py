@@ -13,5 +13,6 @@ urlpatterns = [
     path("freedom/", views.freedom, name="freedom"),
     path("reset/", views.reset, name="reset"),
     path("backdrop/", views.backdrop, name="backdrop"),
+    path("story/", views.story, name="story"),
     path("debrief/", views.debrief, name="debrief"),
 ]

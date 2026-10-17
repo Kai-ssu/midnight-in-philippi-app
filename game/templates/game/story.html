@@ -1,0 +1,71 @@
+{% extends "game/projector_base.html" %}
+{% load static %}
+{% block title %}Story · Midnight in Philippi{% endblock %}
+{% block body_class %}outside{% endblock %}
+
+{% block scenery %}
+{# Philippi at dusk, shown over the prison cell until the story moves inside. #}
+<div class="outside-scene" aria-hidden="true">
+  <div class="sun"></div>
+  <svg class="skyline" viewBox="0 0 1200 320" preserveAspectRatio="xMidYMax slice">
+    <path class="hills" d="M0 210 Q150 150 320 190 T640 175 T980 185 T1200 165 V320 H0Z" />
+    <g class="city">
+      <rect x="0" y="250" width="1200" height="70" />
+      {# city wall with battlements #}
+      <path d="M0 250 V215 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 V250Z" />
+      <path d="M1000 250 V210 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 V250Z" />
+      {# temple: steps, columns, pediment #}
+      <rect x="430" y="236" width="340" height="14" />
+      <rect x="445" y="226" width="310" height="12" />
+      <rect x="460" y="150" width="18" height="78" />
+      <rect x="502" y="150" width="18" height="78" />
+      <rect x="544" y="150" width="18" height="78" />
+      <rect x="586" y="150" width="18" height="78" />
+      <rect x="628" y="150" width="18" height="78" />
+      <rect x="670" y="150" width="18" height="78" />
+      <rect x="712" y="150" width="18" height="78" />
+      <rect x="450" y="138" width="290" height="14" />
+      <path d="M445 140 L595 92 L745 140Z" />
+      {# houses #}
+      <rect x="180" y="200" width="90" height="50" />
+      <path d="M172 202 L225 176 L278 202Z" />
+      <rect x="280" y="215" width="70" height="35" />
+      <rect x="830" y="205" width="80" height="45" />
+      <path d="M822 207 L870 182 L918 207Z" />
+      <rect x="915" y="222" width="60" height="28" />
+      {# cypress trees #}
+      <ellipse cx="385" cy="212" rx="11" ry="40" />
+      <ellipse cx="405" cy="222" rx="9" ry="30" />
+      <ellipse cx="800" cy="214" rx="10" ry="38" />
+    </g>
+  </svg>
+</div>
+<div class="tint" aria-hidden="true"></div>
+{% endblock %}
+
+{% block content %}
+<div class="story-title" id="title">
+  <p class="eyebrow">Acts 16:16–34</p>
+  <h1>Midnight in Philippi</h1>
+  <p class="line">Click or press <kbd>Space</kbd> to begin the story.</p>
+</div>
+<p class="caption hidden" id="caption" aria-live="polite"></p>
+<div class="finale" id="finale" hidden>
+  <a class="cta" href="{% url 'backdrop' %}?start=1">Start the game</a>
+</div>
+{% endblock %}
+
+{% block overlay %}<div class="progress" id="progress" aria-hidden="true"></div>{% endblock %}
+
+{% block controls %}
+<button type="button" data-action="toggle">Play <kbd>Space</kbd></button>
+<button type="button" data-action="prev">Back <kbd>←</kbd></button>
+<button type="button" data-action="next">Next <kbd>→</kbd></button>
+<button type="button" data-action="restart">Restart <kbd>R</kbd></button>
+<a href="{% url 'backdrop' %}" id="backdrop-link">Backdrop <kbd>B</kbd></a>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'game/sound.js' %}"></script>
+<script src="{% static 'game/story.js' %}"></script>
+{% endblock %}

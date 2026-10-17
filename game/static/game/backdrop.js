@@ -1,8 +1,9 @@
 // Projector backdrop: room countdown, narration, ambience, earthquake cue and the
 // player QR code.
-// Keys: Space start/pause · E earthquake · Q QR code · T timer on/off · S sound on/off
-//       D debrief · R reset (F full screen is in projector.js).
-// URL options: ?minutes=45 for a different game length, ?timer=off to hide the clock.
+// Keys: I story · Space start/pause · E earthquake · Q QR code · T timer on/off
+//       S sound on/off · D debrief · R reset (F full screen is in projector.js).
+// URL options: ?minutes=45 for a different game length, ?timer=off to hide the clock,
+// ?start=1 to start the timer on arrival (the story's "Start the game" button).
 
 const STORAGE_KEY = "philippi-backdrop-timer";
 const params = new URLSearchParams(location.search);
@@ -27,6 +28,7 @@ const status = document.getElementById("status");
 const line = document.getElementById("line");
 const joinPanel = document.getElementById("join");
 const debriefLink = document.getElementById("debrief-link");
+const storyLink = document.getElementById("story-link");
 const button = (action) => document.querySelector(`[data-action="${action}"]`);
 const label = (action, text) => (button(action).firstChild.textContent = `${text} `);
 
@@ -223,6 +225,7 @@ document.addEventListener("keydown", (event) => {
   else if (key === "t") toggleClock();
   else if (key === "s") toggleSound();
   else if (key === "d") location.href = debriefLink.href;
+  else if (key === "i") location.href = storyLink.href;
   else if (key === "r") reset();
   else return;
   event.preventDefault();
@@ -230,6 +233,14 @@ document.addEventListener("keydown", (event) => {
 
 setQr(!running());
 applyClock();
+
+// Arriving from the story's "Start the game": start the timer, then tidy the address.
+if (params.get("start") === "1") {
+  params.delete("start");
+  const query = params.toString();
+  history.replaceState(null, "", query ? `?${query}` : location.pathname);
+  if (!running() && remaining() > 0) toggle();
+}
 label("sound", Sound.enabled ? "Sound on" : "Sound off");
 render();
 setInterval(render, 250);

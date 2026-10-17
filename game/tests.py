@@ -174,6 +174,10 @@ class GameFlowTests(SimpleTestCase):
         self.assertNotContains(response, "2-8-4")
         self.assertContains(self.client.get(reverse("answers")), "LEADER_CODE")
 
+    def test_story_page_and_backdrop_link(self):
+        self.assertContains(self.client.get(reverse("story")), 'id="caption"')
+        self.assertContains(self.client.get(reverse("backdrop")), f'href="{reverse("story")}"')
+
     def test_unknown_stage_404(self):
         self.start()
         self.assertEqual(self.client.get(reverse("stage", args=[9])).status_code, 404)

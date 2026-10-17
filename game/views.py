@@ -184,6 +184,11 @@ def backdrop(request):
     return render(request, "game/backdrop.html", _join_link(request))
 
 
+def story(request):
+    """Projector story mode: the host backstory as captions over moving scenery."""
+    return render(request, "game/story.html")
+
+
 def debrief(request):
     """Projector slides with the debrief discussion questions."""
     return render(request, "game/debrief.html")

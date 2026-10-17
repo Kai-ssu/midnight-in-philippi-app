@@ -39,7 +39,8 @@ A web app for *Midnight in Philippi*, a Bible escape room based on Acts 16:16–
 - Answers are checked on the server and never appear in the page source.
 - No database. Each device's progress is stored in a signed cookie, so many teams can play at once.
 - A reset button on the victory screen (or `/reset/`) clears a device for the next team.
-- A projector backdrop at `/backdrop/`: a torch-lit prison cell with a room countdown, ambient sound, an earthquake cue, a QR code for players to join, and a link to the debrief. Keys: <kbd>Space</kbd> start/pause, <kbd>E</kbd> earthquake, <kbd>Q</kbd> QR code, <kbd>T</kbd> timer on/off, <kbd>S</kbd> sound on/off, <kbd>D</kbd> debrief, <kbd>F</kbd> full screen, <kbd>R</kbd> reset. Add `?timer=off` to hide the clock or `?minutes=45` for a different game length.
+- A projector backdrop at `/backdrop/`: a torch-lit prison cell with a room countdown, ambient sound, an earthquake cue, a QR code for players to join, and a link to the debrief. Keys: <kbd>I</kbd> story, <kbd>Space</kbd> start/pause, <kbd>E</kbd> earthquake, <kbd>Q</kbd> QR code, <kbd>T</kbd> timer on/off, <kbd>S</kbd> sound on/off, <kbd>D</kbd> debrief, <kbd>F</kbd> full screen, <kbd>R</kbd> reset. Add `?timer=off` to hide the clock or `?minutes=45` for a different game length.
+- Story mode at `/story/`: the host backstory as a two-minute captioned "film" for the projector, from Philippi at dusk to the prison at midnight, with music and sound. It ends with **Start the game**, which starts the backdrop's room timer. Keys: <kbd>Space</kbd> play/pause, <kbd>→</kbd>/<kbd>←</kbd> next/back, <kbd>R</kbd> restart, <kbd>B</kbd> backdrop.
 - Debrief slides at `/debrief/`: the three discussion questions, one per screen, at daybreak in the same cell. Keys: <kbd>→</kbd>/<kbd>←</kbd> (or a presentation clicker), <kbd>F</kbd> full screen.
 
 ## Project layout

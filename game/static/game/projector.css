@@ -254,6 +254,101 @@ h2 {
   from { opacity: 0; transform: translateY(16px); }
 }
 
+/* ---- Story mode ---- */
+
+/* Philippi at dusk, faded over the cell while the story is outside. */
+.outside-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(#1c1428 0%, #4a2a3a 38%, #9a4f3c 62%, #d98a4a 78%, #f0b35e 88%);
+  transition: opacity 2s ease;
+}
+.outside .outside-scene { opacity: 1; }
+.sun {
+  position: absolute;
+  left: 85%; /* low and off to the side, so captions never sit on its glow */
+  bottom: 27%;
+  width: min(14vw, 22vh);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, #fff1c6, #ffc46b 55%, rgba(255, 160, 70, 0) 72%);
+}
+.skyline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 42%;
+}
+.skyline .hills { fill: #3a2128; }
+.skyline .city { fill: #120b0b; }
+
+/* Red wash for the attack in the marketplace. */
+.tint {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(140, 20, 10, 0.25), rgba(90, 0, 0, 0.7));
+  transition: opacity 1.2s;
+}
+.tint-red .tint { opacity: 1; }
+
+/* A blow lands, or the cell door slams. */
+.room.flash { animation: flash 0.45s ease-out; }
+@keyframes flash {
+  from { filter: brightness(2.4) saturate(0.6); }
+}
+
+/* Midnight: the moon brightens in the cell window. */
+.moon,
+.window,
+.beam { transition: transform 3s, box-shadow 3s, opacity 3s; }
+.moonrise .moon { transform: scale(1.15); box-shadow: 0 0 60px rgba(var(--moon), 0.95); }
+.moonrise .window { box-shadow: 0 0 0 10px #1a130e, 0 0 140px rgba(var(--moon), 0.55); }
+
+.story-title kbd {
+  padding: 1px 6px;
+  border: 1px solid #3a2c1e;
+  border-radius: 4px;
+  font: 0.8em/1.4 ui-monospace, monospace;
+}
+.caption {
+  max-width: 28ch;
+  margin: 0 auto;
+  font: 500 clamp(1.3rem, min(3.3vw, 5.4vh), 3.2rem)/1.4 "EB Garamond", Georgia, serif;
+  color: var(--text);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95), 0 0 2px rgba(0, 0, 0, 0.9);
+  transition: opacity 0.45s, transform 0.45s;
+}
+.caption.hidden { opacity: 0; transform: translateY(8px); }
+.finale { margin-top: 1.4em; }
+.cta {
+  display: inline-block;
+  padding: 0.8em 1.6em;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #1a1208;
+  font: 700 clamp(1rem, 1.8vw, 1.5rem)/1 "Cinzel", serif;
+  text-decoration: none;
+  box-shadow: 0 0 40px rgba(var(--fire), 0.45);
+}
+.progress {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 4;
+  width: 0;
+  height: 4px;
+  background: var(--accent);
+  transition: width 0.6s ease;
+}
+
 /* Daybreak for the debrief. */
 .dawn { --moon: 255, 205, 150; }
 .dawn .window { background: linear-gradient(#f3b979, #d9785a 55%, #5d3f5c); }
@@ -418,6 +513,6 @@ body.qr-hidden .join-panel { opacity: 0; transform: translateY(12px); pointer-ev
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .flame, .halo, .mote, .done .clock, .slide { animation: none; }
+  .flame, .halo, .mote, .done .clock, .slide, .room.flash { animation: none; }
   .room.quake { animation: none; }
 }
